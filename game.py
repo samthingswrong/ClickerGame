@@ -19,10 +19,17 @@ auto_click_texture = pygame.image.load(os.path.join(img_folder, 'auto_click.png'
 chicken_texture = pygame.image.load(os.path.join(img_folder, 'chicken.png'))
 
 pygame.init()
-pygame.mixer.init()
 map_sprites = pygame.sprite.Group()
 obj_sprites = pygame.sprite.Group()
 frames_counter = 0
+
+
+def add_auto_click_bonus():
+    global frames_counter
+    if frames_counter % FPS == 0:
+        game.score += game.auto_click
+        frames_counter = 0
+    frames_counter += 1
 
 
 class Gameplay:
@@ -83,6 +90,29 @@ def map_construct():
             map_sprites.add(Texture(map_texture_width * (i + 0.5), map_texture_height * (j + 0.5), map_texture))
 
 
+def draw():
+    global screen, tap_flag
+    f_size1 = pygame.font.Font(None, 30)
+    f_size2 = pygame.font.Font(None, 36)
+    map_sprites.draw(screen)
+    obj_sprites.draw(screen)
+    text_score = f_size2.render(str(game.score), True, (180, 0, 0))
+    text_2x_price = f_size1.render(str(game.bonus_x2_price), True, (180, 0, 0))
+    text_3x_price = f_size1.render(str(game.bonus_x3_price), True, (180, 0, 0))
+    text_5x_price = f_size1.render(str(game.bonus_x5_price), True, (180, 0, 0))
+    text_auto_click_price = f_size1.render(str(game.bonus_auto_click_price), True, (180, 0, 0))
+    if tap_flag:
+        text_delta_pts = f_size1.render('+' + str(game.tap_bonus), True, (180, 0, 0))
+        screen.blit(text_delta_pts, (WIDTH / 2 - 16, 350))
+        tap_flag = False
+    screen.blit(text_score, (275, 75))
+    screen.blit(text_2x_price, (40, 80))
+    screen.blit(text_3x_price, (40, 160))
+    screen.blit(text_5x_price, (40, 240))
+    screen.blit(text_auto_click_price, (50, 320))
+    pygame.display.flip()
+
+
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Clicker")
 clock = pygame.time.Clock()
@@ -95,8 +125,6 @@ obj_create()
 
 while not gameOver:
     clock.tick(FPS)
-    f1 = pygame.font.Font(None, 30)
-    f2 = pygame.font.Font(None, 36)
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             gameOver = True
@@ -112,27 +140,7 @@ while not gameOver:
                 game.use_bonus_x5()
             elif event.key == pygame.K_r:
                 game.use_bonus_auto_click()
-    if frames_counter % FPS == 0:
-        game.score += game.auto_click
-    frames_counter += 1
-
-    text_score = f2.render(str(game.score), True, (180, 0, 0))
-    text_2x_price = f1.render(str(game.bonus_x2_price), True, (180, 0, 0))
-    text_3x_price = f1.render(str(game.bonus_x3_price), True, (180, 0, 0))
-    text_5x_price = f1.render(str(game.bonus_x5_price), True, (180, 0, 0))
-    text_auto_click_price = f1.render(str(game.bonus_auto_click_price), True, (180, 0, 0))
-    map_sprites.draw(screen)
-    obj_sprites.draw(screen)
-    if tap_flag:
-        text_delta_pts = f1.render('+' + str(game.tap_bonus), True, (180, 0, 0))
-        screen.blit(text_delta_pts, (WIDTH / 2 - 16, 350))
-        tap_flag = False
-    screen.blit(text_score, (275, 75))
-    screen.blit(text_2x_price, (40, 80))
-    screen.blit(text_3x_price, (40, 160))
-    screen.blit(text_5x_price, (40, 240))
-    screen.blit(text_auto_click_price, (50, 320))
-
-    pygame.display.flip()
+    add_auto_click_bonus()
+    draw()
 
 pygame.quit()
