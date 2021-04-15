@@ -17,6 +17,14 @@ x3_texture = pygame.image.load(os.path.join(img_folder, 'x3.png'))
 x5_texture = pygame.image.load(os.path.join(img_folder, 'x5.png'))
 auto_click_texture = pygame.image.load(os.path.join(img_folder, 'auto_click.png'))
 chicken_texture = pygame.image.load(os.path.join(img_folder, 'chicken.png'))
+TEXT_SCORE_POS = (275, 75)
+TEXT_2X_PRICE_POS = (40, 80)
+TEXT_3X_PRICE_POS = (40, 160)
+TEXT_5X_PRICE_POS = (40, 240)
+TEXT_AUTO_CLICK_PRICE_POS = (50, 320)
+TEXT_DELTA_PTS_POS = (WIDTH / 2 - 16, 350)
+DEFAULT_COL = (180, 0, 0)
+
 
 pygame.init()
 map_sprites = pygame.sprite.Group()
@@ -92,24 +100,24 @@ def map_construct():
 
 def draw():
     global screen, tap_flag
-    f_size1 = pygame.font.Font(None, 30)
-    f_size2 = pygame.font.Font(None, 36)
+    text_size1 = pygame.font.Font(None, 30)
+    text_size2 = pygame.font.Font(None, 36)
     map_sprites.draw(screen)
     obj_sprites.draw(screen)
-    text_score = f_size2.render(str(game.score), True, (180, 0, 0))
-    text_2x_price = f_size1.render(str(game.bonus_x2_price), True, (180, 0, 0))
-    text_3x_price = f_size1.render(str(game.bonus_x3_price), True, (180, 0, 0))
-    text_5x_price = f_size1.render(str(game.bonus_x5_price), True, (180, 0, 0))
-    text_auto_click_price = f_size1.render(str(game.bonus_auto_click_price), True, (180, 0, 0))
+    text_score = text_size2.render(str(game.score), True, DEFAULT_COL)
+    text_2x_price = text_size1.render(str(game.bonus_x2_price), True, DEFAULT_COL)
+    text_3x_price = text_size1.render(str(game.bonus_x3_price), True, DEFAULT_COL)
+    text_5x_price = text_size1.render(str(game.bonus_x5_price), True, DEFAULT_COL)
+    text_auto_click_price = text_size1.render(str(game.bonus_auto_click_price), True, DEFAULT_COL)
     if tap_flag:
-        text_delta_pts = f_size1.render('+' + str(game.tap_bonus), True, (180, 0, 0))
-        screen.blit(text_delta_pts, (WIDTH / 2 - 16, 350))
+        text_delta_pts = text_size1.render('+' + str(game.tap_bonus), True, DEFAULT_COL)
+        screen.blit(text_delta_pts, TEXT_DELTA_PTS_POS)
         tap_flag = False
-    screen.blit(text_score, (275, 75))
-    screen.blit(text_2x_price, (40, 80))
-    screen.blit(text_3x_price, (40, 160))
-    screen.blit(text_5x_price, (40, 240))
-    screen.blit(text_auto_click_price, (50, 320))
+    screen.blit(text_score, TEXT_SCORE_POS)
+    screen.blit(text_2x_price, TEXT_2X_PRICE_POS)
+    screen.blit(text_3x_price, TEXT_3X_PRICE_POS)
+    screen.blit(text_5x_price, TEXT_5X_PRICE_POS)
+    screen.blit(text_auto_click_price, TEXT_AUTO_CLICK_PRICE_POS)
     pygame.display.flip()
 
 
