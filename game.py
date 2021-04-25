@@ -1,6 +1,6 @@
+import os
 import pygame
 import random
-import os
 
 WIDTH = 480
 HEIGHT = 640
