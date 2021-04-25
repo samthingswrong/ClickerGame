@@ -12,6 +12,9 @@
 `R` - add AUTOCLICK
 
 
+### **How to play game:**
+  Run in Terminal: python3 game.py
+
 ## Example
 
 
