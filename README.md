@@ -11,4 +11,8 @@
 
 `R` - add AUTOCLICK
 
+
+## Example
+
+
 ![alt text](screenshots/example.png "Example")​
