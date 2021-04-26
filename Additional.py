@@ -1,13 +1,14 @@
 import pygame
-
+import math
 
 class Gameplay:
     score = 0
+    record = 0
     tap_bonus = 5
     auto_click = 0
     bonus_x2_price = 100
-    bonus_x3_price = 500
-    bonus_x5_price = 1000
+    bonus_x3_price = 300
+    bonus_x5_price = 500
     bonus_auto_click_lvl = 0
     bonus_auto_click_price = 50
 
@@ -21,19 +22,22 @@ class Gameplay:
         if self.score >= self.bonus_x2_price:
             self.score -= self.bonus_x2_price
             self.tap_bonus *= 2
-            self.bonus_x2_price *= 2
+            self.bonus_x2_price *= math.exp(self.bonus_x2_price / 100)
+            self.bonus_x2_price = int(self.bonus_x2_price)
 
     def use_bonus_x3(self):
         if self.score >= self.bonus_x3_price:
             self.score -= self.bonus_x3_price
             self.tap_bonus *= 3
-            self.bonus_x3_price *= 3
+            self.bonus_x3_price += math.exp(self.bonus_x3_price / 100)
+            self.bonus_x3_price = int(self.bonus_x3_price)
 
     def use_bonus_x5(self):
         if self.score >= self.bonus_x5_price:
             self.score -= self.bonus_x5_price
             self.tap_bonus *= 5
-            self.bonus_x5_price *= 5
+            self.bonus_x5_price += math.exp(self.bonus_x5_price / 100)
+            self.bonus_x5_price = int(self.bonus_x5_price)
 
 
 class Texture(pygame.sprite.Sprite):
