@@ -1,5 +1,7 @@
-import pygame
 import math
+
+import pygame
+
 
 class Gameplay:
     score = 0

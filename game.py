@@ -1,6 +1,9 @@
-import Additional as Add
 import os
+
 import pygame
+
+import Additional as Add
+
 
 WIDTH = 480
 HEIGHT = 640
@@ -20,7 +23,8 @@ map_texture = pygame.image.load(os.path.join(img_folder, 'grass.png'))
 x2_texture = pygame.image.load(os.path.join(img_folder, 'x2.png'))
 x3_texture = pygame.image.load(os.path.join(img_folder, 'x3.png'))
 x5_texture = pygame.image.load(os.path.join(img_folder, 'x5.png'))
-auto_click_texture = pygame.image.load(os.path.join(img_folder, 'auto_click.png'))
+auto_click_texture = pygame.image.load(os.path.join(img_folder,
+                                                    'auto_click.png'))
 chicken_texture = pygame.image.load(os.path.join(img_folder, 'chicken.png'))
 TEXT_SCORE_POS = (275, 75)
 TEXT_RECORD_POS = (25, 480)
@@ -63,7 +67,9 @@ def obj_create():
 def map_construct():
     for i in range(WIDTH // map_texture_width):
         for j in range(HEIGHT // map_texture_height):
-            map_sprites.add(Add.Texture(map_texture_width * (i + 0.5), map_texture_height * (j + 0.5), map_texture))
+            map_sprites.add(Add.Texture(map_texture_width * (i + 0.5),
+                                        map_texture_height * (j + 0.5),
+                                        map_texture))
 
 
 # Draw map textures, object textures and text
@@ -76,13 +82,25 @@ def draw():
     text_size2 = pygame.font.Font(None, 40)
     # Draw text
     text_score = text_size2.render(str(game.score), True, DEFAULT_COL)
-    text_record = text_size2.render('Previous record: ' + str(game.record), True, DEFAULT_COL)
-    text_2x_price = text_size1.render(str(game.bonus_x2_price), True, DEFAULT_COL)
-    text_3x_price = text_size1.render(str(game.bonus_x3_price), True, DEFAULT_COL)
-    text_5x_price = text_size1.render(str(game.bonus_x5_price), True, DEFAULT_COL)
-    text_auto_click_price = text_size1.render(str(game.bonus_auto_click_price), True, DEFAULT_COL)
+    text_record = text_size2.render('Previous record: ' + str(game.record),
+                                    True,
+                                    DEFAULT_COL)
+    text_2x_price = text_size1.render(str(game.bonus_x2_price),
+                                      True,
+                                      DEFAULT_COL)
+    text_3x_price = text_size1.render(str(game.bonus_x3_price),
+                                      True,
+                                      DEFAULT_COL)
+    text_5x_price = text_size1.render(str(game.bonus_x5_price),
+                                      True,
+                                      DEFAULT_COL)
+    text_auto_click_price = text_size1.render(str(game.bonus_auto_click_price),
+                                              True,
+                                              DEFAULT_COL)
     if tap_flag:
-        text_delta_pts = text_size1.render('+' + str(game.tap_bonus), True, DEFAULT_COL)
+        text_delta_pts = text_size1.render('+' + str(game.tap_bonus),
+                                           True,
+                                           DEFAULT_COL)
         screen.blit(text_delta_pts, TEXT_DELTA_PTS_POS)
         tap_flag = False
     screen.blit(text_score, TEXT_SCORE_POS)
@@ -100,9 +118,8 @@ def play_game():
     pygame.init()
 
     # Get last record
-    f = open('records', 'r')
-    game.record = int(str(f.read()))
-    f.close()
+    with open('records', 'r') as f:
+        game.record = int(str(f.read()))
 
     # Texture objects creating
     map_construct()
@@ -118,7 +135,6 @@ def play_game():
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
                     game.score += game.tap_bonus
-                    tap_flag = True
                 elif event.key == pygame.K_q:
                     game.use_bonus_x2()
                 elif event.key == pygame.K_w:
@@ -132,9 +148,8 @@ def play_game():
 
     # New record
     if game.score > game.record:
-        f = open('records', 'w')
-        f.write(str(game.score))
-        f.close()
+        with open('records', 'w') as f:
+            f.write(str(game.score))
 
     # Disable pygame
     pygame.quit()
