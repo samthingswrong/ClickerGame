@@ -22,7 +22,7 @@ Incremental games, also known as clicker games, clicking games (on PCs) or tap g
 
 
 ### **How to play game:**
-  Run in Terminal: python3 game.py
+  Run in Terminal: python3 play.py
 
 ## Example
 
