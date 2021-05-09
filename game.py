@@ -4,7 +4,6 @@ import pygame
 
 import Additional as Add
 
-
 WIDTH = 480
 HEIGHT = 640
 map_texture_width: int = 32
@@ -113,6 +112,23 @@ def draw():
     pygame.display.flip()
 
 
+def check_events(event):
+    global gameOver
+    if event.type == pygame.QUIT:
+        gameOver = True
+    if event.type == pygame.KEYDOWN:
+        if event.key == pygame.K_SPACE:
+            game.score += game.tap_bonus
+        if event.key == pygame.K_q:
+            game.use_bonus_x2()
+        if event.key == pygame.K_w:
+            game.use_bonus_x3()
+        if event.key == pygame.K_e:
+            game.use_bonus_x5()
+        if event.key == pygame.K_r:
+            game.use_bonus_auto_click()
+
+
 def play_game():
     global gameOver
     pygame.init()
@@ -130,19 +146,7 @@ def play_game():
         clock.tick(FPS)
         # processing of clicks
         for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                gameOver = True
-            elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_SPACE:
-                    game.score += game.tap_bonus
-                elif event.key == pygame.K_q:
-                    game.use_bonus_x2()
-                elif event.key == pygame.K_w:
-                    game.use_bonus_x3()
-                elif event.key == pygame.K_e:
-                    game.use_bonus_x5()
-                elif event.key == pygame.K_r:
-                    game.use_bonus_auto_click()
+            check_events(event)
         add_auto_click_bonus()
         draw()
 
