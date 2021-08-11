@@ -1,4 +1,4 @@
-##	PythonReview Clicker
+##	Clicker
 
 ###  **Description:**
 
@@ -22,6 +22,9 @@ Incremental games, also known as clicker games, clicking games (on PCs) or tap g
 
 
 ### **How to play game:**
+
+  Clone this repository
+  
   Run in Terminal: python3 play.py
 
 ## Example
